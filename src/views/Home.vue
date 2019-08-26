@@ -1,13 +1,92 @@
 <template>
-  <div class="home">
+  <div class="home page-home">
   </div>
 </template>
 
 <script>
+import LongTake from '@/utils/LongTake';
+// 资源定义
+import { 
+  ani, girl, items, plane, sprites, spriteAnimations, 
+  texts, textsAnimations 
+} from '@/assets/assets-map';
 
 export default {
   name: 'home',
   components: {
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      this.initLongTake();
+    },
+    initLongTake() {
+      const longTake = new LongTake({
+        container: this.$el,
+        sprites: this.getSprites()
+      });
+    },
+    getResource() {
+
+    },
+    /** 获取精灵图. */
+    getSprites() {
+      const sprites = sprites;
+
+      // item 设置
+      for (let i = 1; i < 8; i += 1) {
+        const x = i % 2 === 0 ? 1.1 : -0.1
+        sprites[`item${i}`] = {
+          key: `item${i}`,
+          size: { mode: 'widthFit', width: 0.8 },
+          position: { x, y: 1.4 },
+          anchor: 'center'
+        }
+      }
+
+      return sprites;
+    },
+    /** 获取精灵动画 */
+    getSpritesAnimations() {
+      const animations = textsAnimations;
+      
+      // 物品动画.
+      for (let i = 1; i < 8; i += 1) {
+        const delay = 0.25 + (i / 7 * 0.2)
+        const x = i % 2 === 0 ? window.innerWidth * 0.65 : window.innerWidth * 0.35
+        animations[`item${i}`] = [{
+          delay,
+          duration: 0.2,
+          to: { x, y: -window.innerHeight * 0.2, width: 0, height: 0 }
+        }, {
+          duration: 0.5 + Math.random(),
+          to: { yoyo: true, repeat: -1, rotation: 0.1 }
+        }]
+      }
+
+      return animations;
+    },
+    /** 背景获取 */
+    getBgSprites() {
+    },
+    /** 获取文本 */
+    getTexts() {
+      // Tips: 这里获取的是本地资源配置的文本，也可以通过接口获取远程资源.
+      return texts;
+    },
+    /** 获取文本动画 */
+    getTextsAnimations() {
+      return textsAnimations
+    }
   }
 }
 </script>
+
+<style>
+.page-home {
+  width: 100%;
+  height: 100%;
+}
+</style>

@@ -2,6 +2,21 @@
  * 资源管理中心.
  */
 
+/** 
+ * 获取指定的序列帧.
+ * 
+ * @param {string} key 名称.
+ * @param {number} n 数量.
+ * @param {number} 开始的值.
+ */
+const getFrames = (key, n, start = 0 ) => {
+  const frames = []
+  for (let i = start; i < n + start; i += 1) {
+    frames.push(`${key}${i}`)
+  }
+  return frames
+}
+
 const ani = [
   { name: 'ani1', url: 'http://cdn.shikehuyu.com/long-take-demo-v1.0/static/imgs/ani/701.png' },
   { name: 'ani2', url: 'http://cdn.shikehuyu.com/long-take-demo-v1.0/static/imgs/ani/702.png' },
@@ -159,9 +174,176 @@ const plane = [
   { name: 'plane24', url: 'http://cdn.shikehuyu.com/long-take-demo-v1.0/static/imgs/plane/432.png' }
 ]
 
+const sprites = {
+  ani: {
+    key: 'ani0',
+    size: { mode: 'widthFit', width: 1 },
+    position: 'center',
+    anchor: 'center'
+  },
+  girl: {
+    key: 'girl0',
+    size: { mode: 'widthFit', width: 1 },
+    position: 'center',
+    anchor: 'center'
+  },
+  plane: {
+    key: 'plane0',
+    size: { mode: 'widthFit', width: 0.5 },
+    position: {
+      x: 0.5, y: 0.4
+    },
+    anchor: 'center'
+  }
+}
+
+const spriteAnimations = {
+  // 旋涡
+  ani: [{
+    delay: 0.1,
+    duration: 0.6,
+    from: { alpha: 0 },
+    to: { alpha: 1 }
+  }, {
+    delay: 0.1,
+    duration: 0.6,
+    frames: getFrames('ani', 50)
+  }, {
+    delay: 0.7,
+    duration: 0.2,
+    to: { alpha: 0 }
+  }, {
+    delay: 0.7,
+    duration: 0.2,
+    frames: getFrames('ani', 50).reverse()
+  }],
+  // 女孩
+  girl: [{
+    delay: 0,
+    duration: 1,
+    frames: getFrames('girl', 62)
+  }, {
+    delay: 0,
+    duration: 0.2,
+    from: { y: -window.innerHeight },
+    to: { y: window.innerHeight * 0.5 }
+  }, {
+    delay: 0.7,
+    duration: 0.3,
+    to: { y: window.innerHeight * 1.2 }
+  }],
+  // 飞机
+  plane: [{
+    duration: 2,
+    frames: getFrames('plane', 25),
+    infinite: true,
+    frameRate: 25
+  }, {
+    delay: 0.8,
+    duration: 0.2,
+    from: { width: 0, height: 0, alpha: 0 }
+  }]
+}
+
+const texts = {
+  guide: {
+    text: '向上滑动，找回童年',
+    position: { x: 0.5, y: 0.5 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 18,
+      fill: 0xfb833f,
+      align: 'center'
+    }
+  },
+  ad: {
+    text: '《从零到一：实现通用一镜到底H5》',
+    link: 'https://segmentfault.com/a/1190000017848401',
+    position: { x: 0.5, y: 0.88 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 12,
+      fill: 0xfb833f,
+      align: 'center'
+    }
+  },
+  ad2: {
+    text: 'Powerd by: Pixi.js AlloyTouch TweenMax',
+    position: { x: 0.5, y: 0.92 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 12,
+      fill: 0xfb833f,
+      align: 'center'
+    }
+  },
+  ad3: {
+    text: 'Produced by VincentPat',
+    position: { x: 0.5, y: 0.58 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 14,
+      fill: 0xfb833f,
+      align: 'center'
+    }
+  },
+  ad4: {
+    text: '素材源自互联网，仅供学习交流，请勿商用！',
+    position: { x: 0.5, y: 0.62 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 12,
+      fill: 0xfb833f,
+      align: 'center'
+    }
+  }
+}
+
+const textsAnimations = {
+  guide: [{
+    delay: 0,
+    duration: 1,
+    from: { y: window.innerHeight * 0.5 },
+    to: { yoyo: true, repeat: -1, ease: 'easeOut', y: window.innerHeight * 0.48 }
+  }, {
+    delay: 0,
+    duration: 0.1,
+    to: { alpha: 0 }
+  }],
+  ad: [{
+    delay: 0,
+    duration: 0.1,
+    to: { alpha: 0 }
+  }],
+  ad2: [{
+    delay: 0,
+    duration: 0.1,
+    to: { alpha: 0 }
+  }],
+  ad3: [{
+    delay: 0.9,
+    duration: 0.1,
+    from: { alpha: 0, y: window.innerHeight * 0.53 }
+  }],
+  ad4: [{
+    delay: 0.9,
+    duration: 0.1,
+    from: { alpha: 0, y: window.innerHeight * 0.57 }
+  }]
+}
+
 export {
   ani,
   girl,
   items,
-  plane
+  plane,
+  sprites,
+  spriteAnimations,
+  texts,
+  textsAnimations
 }
