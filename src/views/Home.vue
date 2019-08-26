@@ -31,7 +31,8 @@ export default {
       const longTake = new LongTake({
         container: this.$el,
         resource: this.getResource(),
-        sprites: this.getSprites()
+        sprites: this.getSprites(),
+        texts: this.getTexts()
       });
     },
     getResource() {

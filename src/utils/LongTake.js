@@ -88,7 +88,10 @@ class LongTake {
     if (this.autoLoad) this.load();
   }
 
-  /** 背景相关 */
+  // =====================================================================
+  // 背景相关
+  // =====================================================================
+  /** 背景初始化 */
   initBg() {
     const bgColor = BG_COLOR;
     // 创建背景.
@@ -103,7 +106,10 @@ class LongTake {
     this.scrollHeight = this.bg.height - this.height;
   }
 
-  /** 文字相关 */
+  // =====================================================================
+  // 文字相关
+  // =====================================================================
+  /** 文字初始化 */
   initTexts() {
     if (typeof this.options.texts === 'object') {
       Object.keys(this.options.texts).forEach(key => {
@@ -120,6 +126,8 @@ class LongTake {
             location.href = textOptions.link;
           })
         }
+        console.log('舞台', this.app.stage);
+        
         // 加入场景.
         this.app.stage.addChild(text);
         this.texts[key] = text;
@@ -127,13 +135,6 @@ class LongTake {
     }
   }
 
-  initSprites() {
-
-  }
-
-  initTimeline() {
-
-  }
 
   initTouch() {
 
@@ -165,9 +166,10 @@ class LongTake {
     // 1. 初始化背景
     // 2. 初始化文字
     // 3. 初始化精灵图.
-    this.initBg();
+    // this.initBg();
     this.initTexts();
     this.initSprites();
+    // this.initTimeLine();
   }
 
   // =====================================================================
@@ -303,6 +305,78 @@ class LongTake {
       center: { x: 0.5, y: 0.5 }
     }
     return map[type] || { x: 0, y: 0 }
+  }
+
+  // =====================================================================
+  // 进度相关.
+  // =====================================================================
+  initTimeLine() {
+    /** 是否自动播放 */
+    const paused = true;
+    this.timeline = new TimelineMax({
+      paused: paused
+    })
+
+    // 设置精灵动画
+    Object.keys(this.spritesAnimations).forEach(key => {
+      this.setAnimation(this.sprites[key], this.spritesAnimations[key]);
+    });
+
+    // 设置文本动画
+    Object.keys(this.textsAnimations).forEach(key => {
+      this.setAnimation(this.text[key], this.textsAnimations[key]);
+    });
+
+    // 背景动画.
+    const bgAction = TweenMax.fromTo(this.bg, 1, { y: 0 }, { y: -this.scrollHeight });
+    const bgTimeline = new TimelineMax();
+    bgTimeline.add(bgAction, 0);
+    this.timeline.add(bgTimeline, 0);
+  }
+
+  /** 动画对象 */
+  setAnimation(obj, animations) {
+    // TODO: 需要进一步理解代码.
+    if (obj && animations && animations instanceof Array) {
+      animations.forEach(({ from, to, frames, infinite, frameRate, delay = 0, duration = 1 }) => {
+        if (frames) { // 帧动画
+          if (infinite) { // 无限
+            obj.frames = frames
+            obj.currentFrame = 0
+            this.aniIntervals.push(setInterval(() => {
+              obj.currentFrame += 1
+              if (obj.currentFrame >= obj.frames.length) obj.currentFrame = 0
+              const frame = obj.frames[obj.currentFrame]
+              obj.texture = PIXI.loader.resources[frame].texture
+            }, duration * 1000 / frameRate))
+          } else {
+            this.on('progress', (progress) => {
+              const frameProgress = (progress - delay) / duration
+              let index = Math.floor(frameProgress * frames.length)
+              if (index < frames.length && index >= 0) {
+                const frame = frames[index]
+                obj.texture = PIXI.loader.resources[frame].texture
+              }
+            })
+          }
+        } else if (from || to) { // 过渡动画
+          let action
+          if (from && to) {
+            action = TweenMax.fromTo(obj, duration, from, to)
+          } else if (to) {
+            action = TweenMax.to(obj, duration, to)
+          } else if (from) {
+            action = TweenMax.from(obj, duration, from)
+          }
+          const timeline = new TimelineMax({ delay })
+          timeline.add(action, 0)
+          timeline.play()
+          if (!(to && to.repeat === -1)) {
+            this.timeline.add(timeline, 0)
+          }
+        }
+      })
+    }
   }
 
   /** 销毁(周期) */
