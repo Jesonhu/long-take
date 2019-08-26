@@ -162,8 +162,12 @@ class LongTake {
 
   /** 加载完成. */
   loadDone() {
+    // 1. 初始化背景
+    // 2. 初始化文字
+    // 3. 初始化精灵图.
     this.initBg();
     this.initTexts();
+    this.initSprites();
   }
 
   // =====================================================================
@@ -212,8 +216,47 @@ class LongTake {
   }
 
   // =====================================================================
+  // 精灵相关.
+  // =====================================================================
+  /** 初始化精灵. */
+  initSprites() {
+    if (typeof this.options.sprites === 'object') {
+      Object.keys(this.options.sprites).forEach(key => {
+        // 创建
+        const options = this.options.sprites[key];
+        // deprecated — since 5.0.0
+        // const sprite = new PIXI.Sprite(PIXI.loader.resources[options.key].texture);
+        const sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[options.key].texture);
+        // 设置属性
+        this.setSize(sprite, options.size);
+        this.setAnchor(sprite, options.anchor);
+        this.setPosition(sprite, options.position);
+        // 加入场景.
+        this.app.stage.addChild(sprite);
+        this.sprites[key] = sprite;
+      });
+    }
+  }
+
+  // =====================================================================
   // 通用属性设置.
   // =====================================================================
+  /** 设置尺寸 */
+  setSize(obj, size) {
+    if (size.mode === 'widthFit') { // 按宽度适应.
+      const scale = this.app.screen.width * size.width / obj.width;
+      obj.scale.x = scale;
+      obj.scale.y = scale;
+    } else if (size.mode === 'heightFit') { // 按高度适应.
+      const scale = this.app.screen.height * size.height / obj.height;
+      obj.scale.x = scale;
+      obj.scale.y = scale;
+    } else { // 自定义.
+      obj.width = size.width;
+      obj.height = size.height;
+    }
+  }
+  
   /**
    * 设置锚点.
    * 

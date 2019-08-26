@@ -15,6 +15,11 @@ export default {
   name: 'home',
   components: {
   },
+  computed: {
+    assetsSprites() {
+      return sprites;
+    }
+  },
   mounted() {
     this.init();
   },
@@ -25,15 +30,20 @@ export default {
     initLongTake() {
       const longTake = new LongTake({
         container: this.$el,
+        resource: this.getResource(),
         sprites: this.getSprites()
       });
     },
     getResource() {
-
+      const resources = { sprites: [] };
+      // resources.sprites.push(ani, girl, items, plane);
+      // Tips: this demo ant girl items plane type is Array. so must be use concat()。
+      resources.sprites = [].concat(ani, girl, items, plane);
+      return resources;
     },
     /** 获取精灵图. */
     getSprites() {
-      const sprites = sprites;
+      const sprites = JSON.parse(JSON.stringify(this.assetsSprites));
 
       // item 设置
       for (let i = 1; i < 8; i += 1) {
