@@ -126,6 +126,21 @@ class LongTake {
           })
         }
         
+        // 添加点击事件处理.
+        if (textOptions.touch) {
+          text.interactive = true;
+          const eventName = textOptions.touch.eventName || 'eventName';
+          const self = this;
+          text.on('tap', (e) => {
+            // 事件有附加参数
+            if (textOptions.touch.params) {
+              self.trigger(eventName, textOptions.touch.params);
+            } else {
+              self.trigger(eventName);
+            }
+          });
+        }
+        
         // 加入场景.
         this.app.stage.addChild(text);
         this.texts[key] = text;
@@ -161,13 +176,14 @@ class LongTake {
 
   /** 加载完成. */
   loadDone() {
-    // 1. 初始化背景
-    // 2. 初始化文字
-    // 3. 初始化精灵图.
-    this.initBg();
-    this.initTexts();
-    // this.initSprites();
-    this.initTimeLine();
+    // 1. 初始化背景(静态)
+    // 2. 初始化文字(静态)
+    // 3. 初始化精灵图(静态).
+    // 4. 初始化事件轴(添加动画)
+    this.initBg(); // 1
+    this.initTexts(); // 2
+    // this.initSprites(); // 3
+    this.initTimeLine(); // 4
   }
 
   // =====================================================================
@@ -313,7 +329,7 @@ class LongTake {
     const paused = true;
     this.timeline = new TimelineMax({
       paused: paused
-    })
+    });
 
     // 设置精灵动画
     Object.keys(this.spritesAnimations).forEach(key => {

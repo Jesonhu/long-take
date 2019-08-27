@@ -256,6 +256,21 @@ const texts = {
       align: 'center'
     }
   },
+  autoplay: {
+    text: '点我自动播放',
+    position: { x: 0.5, y: 0.6 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 18,
+      fill: 0xfb833f,
+      align: 'center'
+    },
+    touch: {
+      eventName: 'autoPlay',
+      params: 1111
+    }
+  },
   ad: {
     text: '《从零到一：实现通用一镜到底H5》',
     link: 'https://segmentfault.com/a/1190000017848401',

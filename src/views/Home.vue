@@ -32,8 +32,12 @@ export default {
         container: this.$el,
         resource: this.getResource(),
         sprites: this.getSprites(),
+        spriteAnimations: this.getSpritesAnimations(),
         texts: this.getTexts(),
         textsAnimations: this.getTextsAnimations()
+      });
+      longTake.on('autoPlay', function(params) {
+        console.log('自动播放点击');
       });
     },
     getResource() {
