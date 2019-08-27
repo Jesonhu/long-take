@@ -77,7 +77,7 @@ class LongTake {
     // @see https://github.com/pixijs/pixi.js#basic-usage-example
     // @see http://pixijs.download/release/docs/PIXI.Application.html
     this.app = new PIXI.Application({
-      resolution: 2,
+      resolution: 1,
       transparent: true,
       width: width,
       height: height
@@ -126,7 +126,6 @@ class LongTake {
             location.href = textOptions.link;
           })
         }
-        console.log('舞台', this.app.stage);
         
         // 加入场景.
         this.app.stage.addChild(text);
@@ -166,9 +165,9 @@ class LongTake {
     // 1. 初始化背景
     // 2. 初始化文字
     // 3. 初始化精灵图.
-    // this.initBg();
+    this.initBg();
     this.initTexts();
-    this.initSprites();
+    // this.initSprites();
     // this.initTimeLine();
   }
 
@@ -260,14 +259,14 @@ class LongTake {
   }
   
   /**
-   * 设置锚点.
+   * 设置锚点(文本的原点).
    * 
    * @param {object} obj
    * @param {string|object} anchor
    */
   setAnchor(obj, anchor) {
     if (typeof anchor === 'string') {
-      const anchor = this.positionMap(anchor);
+      anchor = this.positionMap(anchor);
     }
     obj.anchor.x = anchor.x;
     obj.anchor.y = anchor.y;

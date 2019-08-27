@@ -97,7 +97,11 @@ export default {
 
 <style>
 .page-home {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  font-size: 0;
 }
 </style>

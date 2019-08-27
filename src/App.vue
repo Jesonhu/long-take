@@ -12,16 +12,10 @@
   color: #2c3e50;
   width: 100%;
   height: 100%;
+  font-size: .14rem;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+html {
+  font-size: 26.66667vw;
 }
 html, body {
   width: 100%;
