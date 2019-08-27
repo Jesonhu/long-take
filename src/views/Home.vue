@@ -32,7 +32,8 @@ export default {
         container: this.$el,
         resource: this.getResource(),
         sprites: this.getSprites(),
-        texts: this.getTexts()
+        texts: this.getTexts(),
+        textsAnimations: this.getTextsAnimations()
       });
     },
     getResource() {

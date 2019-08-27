@@ -167,7 +167,7 @@ class LongTake {
     this.initBg();
     this.initTexts();
     // this.initSprites();
-    // this.initTimeLine();
+    this.initTimeLine();
   }
 
   // =====================================================================
@@ -322,7 +322,7 @@ class LongTake {
 
     // 设置文本动画
     Object.keys(this.textsAnimations).forEach(key => {
-      this.setAnimation(this.text[key], this.textsAnimations[key]);
+      this.setAnimation(this.texts[key], this.textsAnimations[key]);
     });
 
     // 背景动画.
@@ -336,7 +336,9 @@ class LongTake {
   setAnimation(obj, animations) {
     // TODO: 需要进一步理解代码.
     if (obj && animations && animations instanceof Array) {
+      // 回调函数中的参数与 spriteAnimations textsAnimations 字段对应.
       animations.forEach(({ from, to, frames, infinite, frameRate, delay = 0, duration = 1 }) => {
+        const loader = PIXI.Loader.shared;
         if (frames) { // 帧动画
           if (infinite) { // 无限
             obj.frames = frames
@@ -345,7 +347,7 @@ class LongTake {
               obj.currentFrame += 1
               if (obj.currentFrame >= obj.frames.length) obj.currentFrame = 0
               const frame = obj.frames[obj.currentFrame]
-              obj.texture = PIXI.loader.resources[frame].texture
+              obj.texture = loader.resources[frame].texture
             }, duration * 1000 / frameRate))
           } else {
             this.on('progress', (progress) => {
@@ -353,7 +355,7 @@ class LongTake {
               let index = Math.floor(frameProgress * frames.length)
               if (index < frames.length && index >= 0) {
                 const frame = frames[index]
-                obj.texture = PIXI.loader.resources[frame].texture
+                obj.texture = loader.resources[frame].texture
               }
             })
           }
