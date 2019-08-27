@@ -10,6 +10,11 @@ const EVENT_NAME_MAP = {
   loadDone: 'loadDone',
   /** 动画播放中类似音视频的进度 */
   progress: 'progress',
+
+  // 时间轴相关事件
+  timelineStart: 'timelineStart',
+  timelineUpdate: 'timelineUpdate',
+  timelineComplete: 'timelineComplete'
 }
 
 /** 背景颜色 */
@@ -335,8 +340,12 @@ class LongTake {
   initTimeLine() {
     /** 是否自动播放 */
     const paused = true;
+    // @see https://www.tweenmax.com.cn/api/timelinemax/onUpdate
     this.timeline = new TimelineMax({
-      paused: paused
+      paused: paused,
+      onStart: this.timelineStart.bind(this),
+      onUpdate: this.timelineUpdate.bind(this),
+      onComplete: this.timelineComplete.bind(this)
     });
 
     // 设置精灵动画
@@ -404,6 +413,24 @@ class LongTake {
     }
   }
 
+  /** 事件轴开始播放 */
+  timelineStart() {
+    const { timelineStart } = this.eventNameMap;
+    this.trigger(timelineStart);
+  }
+
+  /** 事件轴播放完成 */
+  timelineComplete() {
+    const { timelineComplete } = this.eventNameMap;
+    this.trigger(timelineComplete);
+  }
+
+  /** 时间轴正在播放 */
+  timelineUpdate() {
+    const { timelineUpdate } = this.eventNameMap;
+    this.trigger(timelineUpdate);
+  }
+
   // =====================================================================
   // 滑动相关.
   // =====================================================================
@@ -430,10 +457,10 @@ class LongTake {
     console.log('进度', this.progress);
     const formatProgress = this.progress.toFixed(2);
     // 控制进度条
-    this.timeline.seek(formatProgress);
+    this.timeline.seek(this.progress);
     // 触发事件
     const { progress } = this.eventNameMap;
-    this.trigger(progress, formatProgress);
+    this.trigger(progress, this.progress);
   }
 
   /** 销毁(周期) */

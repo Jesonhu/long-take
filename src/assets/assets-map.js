@@ -261,11 +261,11 @@ const texts = {
   },
   autoplay: {
     text: '自动播放',
-    position: { x: 0.1, y: 0.1 },
+    position: { x: 0.8, y: 0.1 },
     anchor: 'center',
     options: {
       fontFamily: 'Arial',
-      fontSize: window.innerWidth / 375 * 18,
+      fontSize: window.innerWidth / 375 * 12,
       align: 'center'
     },
     touch: {
