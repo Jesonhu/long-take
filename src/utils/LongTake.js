@@ -77,7 +77,6 @@ class LongTake {
     // @see https://github.com/pixijs/pixi.js#basic-usage-example
     // @see http://pixijs.download/release/docs/PIXI.Application.html
     this.app = new PIXI.Application({
-      resolution: 1,
       transparent: true,
       width: width,
       height: height
