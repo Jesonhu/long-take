@@ -180,20 +180,20 @@ const sprites = {
     position: 'center',
     anchor: 'center'
   },
-  girl: {
-    key: 'girl0',
-    size: { mode: 'widthFit', width: 1 },
-    position: 'center',
-    anchor: 'center'
-  },
-  plane: {
-    key: 'plane0',
-    size: { mode: 'widthFit', width: 0.5 },
-    position: {
-      x: 0.5, y: 0.4
-    },
-    anchor: 'center'
-  }
+  // girl: {
+  //   key: 'girl0',
+  //   size: { mode: 'widthFit', width: 1 },
+  //   position: 'center',
+  //   anchor: 'center'
+  // },
+  // plane: {
+  //   key: 'plane0',
+  //   size: { mode: 'widthFit', width: 0.5 },
+  //   position: {
+  //     x: 0.5, y: 0.4
+  //   },
+  //   anchor: 'center'
+  // }
 }
 
 const spriteAnimations = {
@@ -257,8 +257,8 @@ const texts = {
     }
   },
   autoplay: {
-    text: '点我自动播放',
-    position: { x: 0.5, y: 0.6 },
+    text: 'autoPlay',
+    position: { x: 0.1, y: 0.1 },
     anchor: 'center',
     options: {
       fontFamily: 'Arial',

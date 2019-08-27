@@ -34,7 +34,13 @@ export default {
         sprites: this.getSprites(),
         spriteAnimations: this.getSpritesAnimations(),
         texts: this.getTexts(),
-        textsAnimations: this.getTextsAnimations()
+        textsAnimations: this.getTextsAnimations(),
+        touchOptions: {
+          touch: '.home', // 反馈触摸dom
+          value: 0, // 起始位置
+          sensitivity: 0.5, // 不必需，触摸区域的灵敏度
+          maxSpeed: 0.5 // 不必需，触摸反馈的最大速度限制
+        }
       });
       longTake.on('autoPlay', function(params) {
         console.log('自动播放点击');
@@ -49,6 +55,7 @@ export default {
     },
     /** 获取精灵图. */
     getSprites() {
+      // 避免同名变量的冲突并深拷贝.
       const sprites = JSON.parse(JSON.stringify(this.assetsSprites));
 
       // item 设置
@@ -108,5 +115,9 @@ export default {
   width: 100vw;
   height: 100vh;
   font-size: 0;
+}
+.page-home canvas {
+  width: 100%;
+  height: 100%;
 }
 </style>

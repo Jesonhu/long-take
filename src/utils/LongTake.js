@@ -2,11 +2,14 @@ import * as PIXI from 'pixi.js';
 import { TweenMax, TimelineMax } from 'gsap/TweenMax';
 import AlloyTouch from 'alloytouch';
 
+/** 事件定义(不包括第三方类库的事件) */
 const EVENT_NAME_MAP = {
   /** 加载进度条 */
   loadProgress: 'loadProgress',
   /** 加载完成 */
-  loadDone: 'loadDone'
+  loadDone: 'loadDone',
+  /** 动画播放中类似音视频的进度 */
+  progress: 'progress',
 }
 
 /** 背景颜色 */
@@ -77,6 +80,7 @@ class LongTake {
     // @see https://github.com/pixijs/pixi.js#basic-usage-example
     // @see http://pixijs.download/release/docs/PIXI.Application.html
     this.app = new PIXI.Application({
+      resolution: 2,
       transparent: true,
       width: width,
       height: height
@@ -148,11 +152,6 @@ class LongTake {
     }
   }
 
-
-  initTouch() {
-
-  }
-  
   // =====================================================================
   // 加载资源
   // =====================================================================
@@ -162,9 +161,10 @@ class LongTake {
   load() {
     // 加载资源
     const loader = PIXI.Loader.shared;
+    const { progress } = this.eventNameMap;
     loader
       .add(this.resource.sprites)
-      .on('progress', this.loadProgress.bind(this))
+      .on(progress, this.loadProgress.bind(this))
       .load(this.loadDone.bind(this));
   }
 
@@ -180,10 +180,16 @@ class LongTake {
     // 2. 初始化文字(静态)
     // 3. 初始化精灵图(静态).
     // 4. 初始化事件轴(添加动画)
+    // 5. 初始化滑动(交互)
     this.initBg(); // 1
     this.initTexts(); // 2
-    // this.initSprites(); // 3
+    this.initSprites(); // 3
     this.initTimeLine(); // 4
+    this.initTouch(); // 5
+
+    // 派发资源加载完信息.
+    const { loadDone } = this.eventNameMap;
+    this.trigger(loadDone);
   }
 
   // =====================================================================
@@ -242,7 +248,9 @@ class LongTake {
         const options = this.options.sprites[key];
         // deprecated — since 5.0.0
         // const sprite = new PIXI.Sprite(PIXI.loader.resources[options.key].texture);
-        const sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[options.key].texture);
+        const spriteResources = PIXI.Loader.shared.resources[options.key].texture;
+        const sprite = new PIXI.Sprite(spriteResources);
+        console.log('sprite', spriteResources);
         // 设置属性
         this.setSize(sprite, options.size);
         this.setAnchor(sprite, options.anchor);
@@ -366,7 +374,8 @@ class LongTake {
               obj.texture = loader.resources[frame].texture
             }, duration * 1000 / frameRate))
           } else {
-            this.on('progress', (progress) => {
+            const { progress } = this.eventNameMap;
+            this.on(progress, (progress) => {
               const frameProgress = (progress - delay) / duration
               let index = Math.floor(frameProgress * frames.length)
               if (index < frames.length && index >= 0) {
@@ -393,6 +402,38 @@ class LongTake {
         }
       })
     }
+  }
+
+  // =====================================================================
+  // 滑动相关.
+  // =====================================================================
+  /** 滑动初始化 */
+  initTouch() {
+    // @see https://github.com/AlloyTeam/PhyTouch#usage
+    // @see http://www.alloyteam.com/2016/12/mobile-web-touch-and-motion-solutions-alloytouch-open-source/
+    const defaultOptions = {touch: 'body' }
+    const addOptions = { 
+      min: -this.bg.height + this.height,
+      max: 0, 
+      change: this.touchmove.bind(this) 
+    }
+    const touchOptions = Object.assign(defaultOptions, this.options.touchOptions, addOptions);
+    this.alloyTouch = new AlloyTouch(touchOptions);
+  }
+
+  /** 滑动处理 */
+  touchmove(value) {
+    console.log(value, this.scrollHeight);
+    // 播放总进度
+    this.progress = -value / this.scrollHeight;
+    this.progress = this.progress < 0 ? 0 : this.progress;
+    this.progress = this.progress > 1 ? 1 : this.progress;
+    const formatProgress = this.progress.toFixed(2);
+    // 控制进度条
+    this.timeline.seek(formatProgress);
+    // 触发事件
+    const { progress } = this.eventNameMap;
+    this.trigger(progress, formatProgress);
   }
 
   /** 销毁(周期) */
