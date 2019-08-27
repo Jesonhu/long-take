@@ -322,8 +322,8 @@ const textsAnimations = {
   guide: [{
     delay: 0,
     duration: 1,
-    from: { y: window.innerHeight * 0.5, alpha: 0.3 },
-    to: { yoyo: true, repeat: -1, ease: 'easeOut', y: window.innerHeight * 0.45, alpha: 1 }
+    from: { y: window.innerHeight * 0.5 },
+    to: { yoyo: true, repeat: -1, ease: 'easeOut', y: window.innerHeight * 0.45 }
   }, {
     delay: 0,
     duration: 0.1,

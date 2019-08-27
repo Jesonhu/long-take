@@ -250,7 +250,7 @@ class LongTake {
         // const sprite = new PIXI.Sprite(PIXI.loader.resources[options.key].texture);
         const spriteResources = PIXI.Loader.shared.resources[options.key].texture;
         const sprite = new PIXI.Sprite(spriteResources);
-        console.log('sprite', spriteResources);
+        // console.log('sprite', spriteResources);
         // 设置属性
         this.setSize(sprite, options.size);
         this.setAnchor(sprite, options.anchor);
