@@ -73,7 +73,7 @@ export default {
     },
     /** 获取精灵动画 */
     getSpritesAnimations() {
-      const animations = textsAnimations;
+      const animations = spriteAnimations;
       
       // 物品动画.
       for (let i = 1; i < 8; i += 1) {

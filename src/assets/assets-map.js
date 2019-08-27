@@ -189,14 +189,14 @@ const sprites = {
     position: 'center',
     anchor: 'center'
   },
-  // plane: {
-  //   key: 'plane0',
-  //   size: { mode: 'widthFit', width: 0.5 },
-  //   position: {
-  //     x: 0.5, y: 0.4
-  //   },
-  //   anchor: 'center'
-  // }
+  plane: {
+    key: 'plane0',
+    size: { mode: 'widthFit', width: 0.5 },
+    position: {
+      x: 0.5, y: 0.4
+    },
+    anchor: 'center'
+  }
 }
 
 const spriteAnimations = {
@@ -260,13 +260,12 @@ const texts = {
     }
   },
   autoplay: {
-    text: 'autoPlay',
+    text: '自动播放',
     position: { x: 0.1, y: 0.1 },
     anchor: 'center',
     options: {
       fontFamily: 'Arial',
       fontSize: window.innerWidth / 375 * 18,
-      fill: 0xfb833f,
       align: 'center'
     },
     touch: {
@@ -310,12 +309,22 @@ const texts = {
   },
   ad4: {
     text: '素材源自互联网，仅供学习交流，请勿商用！',
-    position: { x: 0.5, y: 0.62 },
+    position: { x: 0.5, y: 0.70 },
     anchor: 'center',
     options: {
       fontFamily: 'Arial',
       fontSize: window.innerWidth / 375 * 12,
       fill: 0xfb833f,
+      align: 'center'
+    }
+  },
+  me: {
+    text: '案例代码搬运工: Jeson :)',
+    position: { x: 0.5, y: 0.64 },
+    anchor: 'center',
+    options: {
+      fontFamily: 'Arial',
+      fontSize: window.innerWidth / 375 * 12,
       align: 'center'
     }
   }
@@ -348,6 +357,11 @@ const textsAnimations = {
     from: { alpha: 0, y: window.innerHeight * 0.53 }
   }],
   ad4: [{
+    delay: 0.9,
+    duration: 0.1,
+    from: { alpha: 0, y: window.innerHeight * 0.61 }
+  }],
+  me: [{
     delay: 0.9,
     duration: 0.1,
     from: { alpha: 0, y: window.innerHeight * 0.57 }

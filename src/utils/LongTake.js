@@ -341,7 +341,6 @@ class LongTake {
 
     // 设置精灵动画
     Object.keys(this.spritesAnimations).forEach(key => {
-      console.log(this.sprites[key], this.spritesAnimations[key])
       this.setAnimation(this.sprites[key], this.spritesAnimations[key]);
     });
 
@@ -424,11 +423,11 @@ class LongTake {
 
   /** 滑动处理 */
   touchmove(value) {
-    console.log(value, this.scrollHeight);
     // 播放总进度
     this.progress = -value / this.scrollHeight;
     this.progress = this.progress < 0 ? 0 : this.progress;
     this.progress = this.progress > 1 ? 1 : this.progress;
+    console.log('进度', this.progress);
     const formatProgress = this.progress.toFixed(2);
     // 控制进度条
     this.timeline.seek(formatProgress);
