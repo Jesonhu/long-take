@@ -2,7 +2,8 @@
  * 资源管理中心.
  */
 
-const baseAssetUrl = 'http://cdn.shikehuyu.com/long-take-demo-v1.0/static'
+// const baseAssetUrl = 'http://cdn.shikehuyu.com/long-take-demo-v1.0/static'
+const baseAssetUrl = 'http://192.168.1.15:8081';
 
 /** 
  * 获取指定的序列帧.
@@ -182,12 +183,12 @@ const sprites = {
     position: 'center',
     anchor: 'center'
   },
-  // girl: {
-  //   key: 'girl0',
-  //   size: { mode: 'widthFit', width: 1 },
-  //   position: 'center',
-  //   anchor: 'center'
-  // },
+  girl: {
+    key: 'girl0',
+    size: { mode: 'widthFit', width: 1 },
+    position: 'center',
+    anchor: 'center'
+  },
   // plane: {
   //   key: 'plane0',
   //   size: { mode: 'widthFit', width: 0.5 },

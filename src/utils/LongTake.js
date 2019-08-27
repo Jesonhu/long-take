@@ -341,6 +341,7 @@ class LongTake {
 
     // 设置精灵动画
     Object.keys(this.spritesAnimations).forEach(key => {
+      console.log(this.sprites[key], this.spritesAnimations[key])
       this.setAnimation(this.sprites[key], this.spritesAnimations[key]);
     });
 

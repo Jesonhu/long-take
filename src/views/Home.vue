@@ -32,7 +32,7 @@ export default {
         container: this.$el,
         resource: this.getResource(),
         sprites: this.getSprites(),
-        spriteAnimations: this.getSpritesAnimations(),
+        spritesAnimations: this.getSpritesAnimations(),
         texts: this.getTexts(),
         textsAnimations: this.getTextsAnimations(),
         touchOptions: {
