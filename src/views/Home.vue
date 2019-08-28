@@ -53,7 +53,7 @@ export default {
         console.log('时间轴开始播放');
       });
       longTake.on('timelineComplete', function() {
-        console.log('时间轴播放完');
+        console.log('时间轴播放完', longTake.timeline);
       });
     },
     getResource() {

@@ -10,7 +10,18 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      meta: {
+        title: '一镜到底'
+      },
       component: () => import('./views/Home')
+    },
+    {
+      path: '/timeline',
+      name: 'timeline',
+      meta: {
+        title: 'TimelineMax 用法'
+      },
+      component: () => import('./views/Timeline')
     }
   ]
 })

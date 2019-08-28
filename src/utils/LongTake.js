@@ -114,6 +114,27 @@ class LongTake {
     this.scrollHeight = this.bg.height - this.height;
   }
 
+  /** 初始化辅助线 */
+  initSubline() {
+    const sublineContainer = new PIXI.Container();
+    sublineContainer.width = this.app.screen.width;
+    sublineContainer.height = this.app.screen.height * 3;
+    this.app.stage.addChild(sublineContainer);
+    const len = Math.floor((this.app.screen.height * 3) / 100);
+    for (let i = 0; i < len; i++) {
+      console.log('line');
+      const line = new PIXI.Graphics();
+      const posY = i * 100;
+      line.beginFill(0xFFBD01);
+      line.drawRect(0, 0, 5, 80);
+      line.endFill();
+      line.x = 20;
+      line.y = posY;
+      sublineContainer.addChild(line);
+    }
+    this.sublineContainer = sublineContainer;
+  }
+
   // =====================================================================
   // 文字相关
   // =====================================================================
@@ -187,6 +208,7 @@ class LongTake {
     // 4. 初始化事件轴(添加动画)
     // 5. 初始化滑动(交互)
     this.initBg(); // 1
+    this.initSubline();
     this.initTexts(); // 2
     this.initSprites(); // 3
     this.initTimeLine(); // 4
@@ -341,6 +363,8 @@ class LongTake {
     /** 是否自动播放 */
     const paused = true;
     // @see https://www.tweenmax.com.cn/api/timelinemax/onUpdate
+    // TimelineMax -- 创建时间轴
+    // TimeMax -- 创建动画，然后将动画添加到时间轴中.
     this.timeline = new TimelineMax({
       paused: paused,
       onStart: this.timelineStart.bind(this),
@@ -363,6 +387,12 @@ class LongTake {
     const bgTimeline = new TimelineMax();
     bgTimeline.add(bgAction, 0);
     this.timeline.add(bgTimeline, 0);
+
+    // 辅助线动画
+    const subLineAction = TweenMax.fromTo(this.sublineContainer, 1, { y: 0 }, { y: -this.scrollHeight });
+    const subLineTimeline = new TimelineMax();
+    subLineTimeline.add(subLineAction, 0);
+    this.timeline.add(subLineTimeline, 0);
   }
 
   /** 动画对象 */
@@ -373,7 +403,7 @@ class LongTake {
       animations.forEach(({ from, to, frames, infinite, frameRate, delay = 0, duration = 1 }) => {
         const loader = PIXI.Loader.shared;
         if (frames) { // 帧动画
-          if (infinite) { // 无限
+          if (infinite) { // 循环
             obj.frames = frames
             obj.currentFrame = 0
             this.aniIntervals.push(setInterval(() => {
@@ -382,7 +412,7 @@ class LongTake {
               const frame = obj.frames[obj.currentFrame]
               obj.texture = loader.resources[frame].texture
             }, duration * 1000 / frameRate))
-          } else {
+          } else { // 不循环
             const { progress } = this.eventNameMap;
             this.on(progress, (progress) => {
               const frameProgress = (progress - delay) / duration

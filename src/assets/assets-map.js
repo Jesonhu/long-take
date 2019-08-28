@@ -219,7 +219,7 @@ const spriteAnimations = {
     duration: 0.2,
     frames: getFrames('ani', 50).reverse()
   }],
-  // 女孩
+  // 女孩-帧动画、跑动
   girl: [{
     delay: 0,
     duration: 1,
@@ -234,7 +234,7 @@ const spriteAnimations = {
     duration: 0.3,
     to: { y: window.innerHeight * 1.2 }
   }],
-  // 飞机
+  // 飞机-帧动画、无限循环播放
   plane: [{
     duration: 2,
     frames: getFrames('plane', 25),
@@ -330,6 +330,9 @@ const texts = {
   }
 }
 
+// yoyo: true表示时间轴每次重复时交替来回播放
+// repeat: 重复次数 -1 表示一直重复.
+// ease: 运动曲线.
 const textsAnimations = {
   guide: [{
     delay: 0,
