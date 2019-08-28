@@ -3,7 +3,14 @@
  */
 
 // const baseAssetUrl = 'http://cdn.shikehuyu.com/long-take-demo-v1.0/static'
-const baseAssetUrl = 'http://192.168.1.15:8081';
+
+let baseAssetUrl = '';
+
+if ( process.env.NODE_ENV === 'production' ) {
+  baseAssetUrl = '';
+} else {
+  baseAssetUrl = 'http://192.168.1.15:8081';
+}
 
 /** 
  * 获取指定的序列帧.

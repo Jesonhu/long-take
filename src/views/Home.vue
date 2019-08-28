@@ -46,7 +46,7 @@ export default {
         // console.log('自动播放点击', longTake.progress);
         const value = (longTake.progress + 0.05) * Math.abs(longTake.alloyTouch.max - longTake.alloyTouch.min);
         console.log(value);
-        longTake.timeline.play();
+        // longTake.timeline.play();
         // longTake.alloyTouch.to(value, 5000);
       });
       longTake.on('timelineStart', function() {
