@@ -7,7 +7,7 @@
 let baseAssetUrl = '';
 
 if ( process.env.NODE_ENV === 'production' ) {
-  baseAssetUrl = '';
+  baseAssetUrl = '/long-take/';
 } else {
   baseAssetUrl = 'http://192.168.1.15:8081';
 }
