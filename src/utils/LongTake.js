@@ -151,9 +151,10 @@ class LongTake {
         // 设置点击事件.
         if (textOptions.link) {
           text.interactive = true;
-          text.on('tap', (e) => {
+          const onHandleTap = (e) => {
             location.href = textOptions.link;
-          })
+          }
+          text.on('tap', onHandleTap);
         }
         
         // 添加点击事件处理.
